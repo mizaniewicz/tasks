@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/v1/trello")
@@ -21,7 +22,7 @@ public class TrelloController {
         List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
 
         trelloBoards.stream()
-                .filter(trelloBoardDto -> !trelloBoardDto.getName().isEmpty())
+                .filter(Objects::nonNull)
                 .filter(trelloBoardDto -> trelloBoardDto.getName().toLowerCase().contains("kodilla"))
                 .forEach(trelloBoardDto -> {
                     System.out.println(trelloBoardDto.getName() + " - " + trelloBoardDto.getId());
