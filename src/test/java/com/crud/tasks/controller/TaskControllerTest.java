@@ -57,21 +57,26 @@ public class TaskControllerTest {
     @Test
     public void testGetTask() throws Exception {
         //Given
+        Task task = new Task(1l, "test", "test description");
         TaskDto taskDto = new TaskDto(1l, "test", "test description");
-        when(taskMapper.mapToTaskDto(ArgumentMatchers.any(Task.class))).thenReturn(taskDto);
+        when(dbService.getTask(ArgumentMatchers.anyLong())).thenReturn(java.util.Optional.ofNullable(task));
+        when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
         //When & Then
         mockMvc.perform(get("/v1/task/getTask").param("taskId", "1")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].title", is("test")))
-                .andExpect(jsonPath("$[0].content", is("test description")));
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.title", is("test")))
+                .andExpect(jsonPath("$.content", is("test description")));
     }
 
     @Test
     public void testCreateTask() throws Exception {
         //Given
         Task task = new Task(1l, "test", "test description");
-        when(dbService.saveTask(ArgumentMatchers.any(Task.class))).thenReturn(task);
+        TaskDto taskDto = new TaskDto(1l, "test", "test description");
+        when(taskMapper.mapToTask(ArgumentMatchers.any(TaskDto.class))).thenReturn(task);
+        when(dbService.saveTask(task)).thenReturn(task);
+        when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
 
         Gson gson = new Gson();
         String jsonContent = gson.toJson(task);
@@ -80,7 +85,7 @@ public class TaskControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
-                .andExpect(jsonPath("$.id", is("1")))
+                .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("test")))
                 .andExpect(jsonPath("$.content", is("test description")));
     }
