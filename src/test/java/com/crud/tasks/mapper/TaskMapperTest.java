@@ -17,9 +17,9 @@ public class TaskMapperTest {
 
         Task task = taskMapper.mapToTask(taskDto);
 
-        assertEquals(task.getId(), taskDto.getId());
-        assertEquals(task.getTitle(), taskDto.getTitle());
-        assertEquals(task.getContent(), taskDto.getContent());
+        assertEquals(1, task.getId());
+        assertEquals("taskDto", task.getTitle());
+        assertEquals("test taskDto", task.getContent());
     }
 
     @Test
@@ -29,9 +29,9 @@ public class TaskMapperTest {
 
         TaskDto taskDto = taskMapper.mapToTaskDto(task);
 
-        assertEquals(taskDto.getId(), task.getId());
-        assertEquals(taskDto.getTitle(), task.getTitle());
-        assertEquals(taskDto.getContent(), task.getContent());
+        assertEquals(1, taskDto.getId());
+        assertEquals("task", taskDto.getTitle());
+        assertEquals("test task", taskDto.getContent());
     }
 
     @Test
