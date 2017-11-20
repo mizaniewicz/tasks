@@ -1,6 +1,8 @@
 package com.crud.tasks.service;
 
 import com.crud.tasks.domain.Mail;
+import com.crud.tasks.service.messagecreators.MailTextCreator;
+import com.crud.tasks.service.messagecreators.TrelloCardMailTextCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimpleEmailService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleMailMessage.class);
+    protected MailTextCreator mailTextCreator;
 
     @Autowired
     private JavaMailSender javaMailSender;
 
     @Autowired
-    private MailCreatorService mailCreatorService;
+    private TrelloCardMailTextCreator trelloCardMailTextCreator;
 
     public void send(final Mail mail) {
         LOGGER.info("Starting email preparation...");
@@ -36,7 +39,7 @@ public class SimpleEmailService {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
+            messageHelper.setText(mailTextCreator.createMailMessage(mail.getMessage()), true);
         };
     }
 
@@ -44,7 +47,7 @@ public class SimpleEmailService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()));
+        mailMessage.setText(trelloCardMailTextCreator.createMailMessage(mail.getMessage()));
         return mailMessage;
     }
 }

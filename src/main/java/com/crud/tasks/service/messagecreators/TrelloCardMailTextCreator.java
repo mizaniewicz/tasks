@@ -1,4 +1,4 @@
-package com.crud.tasks.service;
+package com.crud.tasks.service.messagecreators;
 
 import com.crud.tasks.config.AdminConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MailCreatorService {
+public class TrelloCardMailTextCreator implements MailTextCreator {
     @Autowired
     private AdminConfig adminConfig;
 
@@ -19,7 +19,7 @@ public class MailCreatorService {
     @Qualifier("templateEngine")
     private TemplateEngine templateEngine;
 
-    public String buildTrelloCardEmail(String message) {
+    public String createMailMessage(String message) {
         List<String > functionality = new ArrayList<>();
         functionality.add("You can manage your tasks");
         functionality.add("Provides connection with Trello Account");
@@ -38,15 +38,5 @@ public class MailCreatorService {
         context.setVariable("admin_config", adminConfig);
         context.setVariable("application_functionality", functionality);
         return templateEngine.process("mail/created-trello-card-mail", context);
-    }
-
-    public String buildInformationEmail(String message) {
-        Context context = new Context();
-        context.setVariable("message", message);
-        context.setVariable("admin_name", adminConfig.getAdminName());
-        context.setVariable("goodbye_message", "Best regards");
-        context.setVariable("company_name", adminConfig.getCompanyName());
-        context.setVariable("company_address", adminConfig.getCompanyAddress());
-        return templateEngine.process("mail/information-mail", context);
     }
 }
