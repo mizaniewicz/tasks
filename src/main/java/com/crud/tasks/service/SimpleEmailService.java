@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimpleEmailService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleMailMessage.class);
-    protected MailTextCreator mailTextCreator;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -24,13 +23,13 @@ public class SimpleEmailService {
     @Autowired
     private TrelloCardMailTextCreator trelloCardMailTextCreator;
 
-    public void send(final Mail mail) {
+    public void send(final Mail mail, final MailTextCreator textCreator) {
         LOGGER.info("Starting email preparation...");
         try {
-            javaMailSender.send(createMimeMessage(mail, mailTextCreator));
+            javaMailSender.send(createMimeMessage(mail, textCreator));
             LOGGER.info("Email has been sent.");
         } catch (MailException e) {
-            LOGGER.error("Failed to proccess email sending: ", e.getMessage(), e);
+            LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
         }
     }
 

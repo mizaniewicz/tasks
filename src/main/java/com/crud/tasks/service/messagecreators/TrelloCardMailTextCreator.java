@@ -3,14 +3,14 @@ package com.crud.tasks.service.messagecreators;
 import com.crud.tasks.config.AdminConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 public class TrelloCardMailTextCreator implements MailTextCreator {
     @Autowired
     private AdminConfig adminConfig;
