@@ -1,11 +1,13 @@
 package com.crud.tasks.service;
 
 import com.crud.tasks.domain.Mail;
+import com.crud.tasks.service.messagecreators.MailTextCreator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
@@ -20,6 +22,9 @@ public class SimpleEmailServiceTest {
     @Mock
     private JavaMailSender javaMailSender;
 
+    @Mock
+    MailTextCreator textCreator;
+
     @Test
     public void shouldSendEmail() {
         //Given
@@ -30,7 +35,7 @@ public class SimpleEmailServiceTest {
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
         //When
-        simpleEmailService.send(mail);
+        simpleEmailService.send(mail, textCreator);
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
     }

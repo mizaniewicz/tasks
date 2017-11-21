@@ -21,6 +21,7 @@ public class InformationMailTextCreator implements MailTextCreator {
         Context context = new Context();
         context.setVariable("message", message);
         context.setVariable("button", "Visit website");
+        context.setVariable("tasks_url", "http://localhost:8080/crud");
         context.setVariable("admin_name", adminConfig.getAdminName());
         context.setVariable("goodbye_message", "Best regards");
         context.setVariable("company_name", adminConfig.getCompanyName());
