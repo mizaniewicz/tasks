@@ -42,11 +42,13 @@ public class SimpleEmailService {
         };
     }
 
-    private SimpleMailMessage createMailMessage(final Mail mail) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getMailTo());
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(trelloCardMailTextCreator.createMailMessage(mail.getMessage()));
-        return mailMessage;
-    }
+// --Commented out by Inspection START (26.11.2017 10:57):
+//    private SimpleMailMessage createMailMessage(final Mail mail) {
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        mailMessage.setTo(mail.getMailTo());
+//        mailMessage.setSubject(mail.getSubject());
+//        mailMessage.setText(trelloCardMailTextCreator.createMailMessage(mail.getMessage()));
+//        return mailMessage;
+//    }
+// --Commented out by Inspection STOP (26.11.2017 10:57)
 }
